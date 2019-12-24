@@ -7,7 +7,8 @@ import {
 } from "./constants";
 
 export const initialState = {
-  employees: []
+  employees: [],
+  loading: false
 };
 
 // Read this: https://redux.js.org/basics/reducers
