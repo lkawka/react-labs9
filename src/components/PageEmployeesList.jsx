@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { employeesLoaded } from '../redux/actions'
+import { employeesLoaded, fetchingEmployees, employeesFetchedError } from '../redux/actions'
 
 const EmployeeLine = ({ employee }) => <div>{employee.name} ({employee.age} yrs old): {employee.company}</div>
 
@@ -60,6 +60,16 @@ const mapStateToProps = (state /*, ownProps*/) => {
 const mapDispatchToProps = (dispatch) => ({
   employeesLoaded: employees => dispatch(employeesLoaded(employees))
 })
+
+function fetchEmployees() {
+  return dispatch => {
+    dispatch(fetchingEmployees());
+    fetch('http://localhost:3004/employees')
+      .then(data => data.json())
+      .then(employees => dispatch(employeesFetched(employees)))
+      .catch(error => dispatch(employeesFetchedError(error)))
+  }
+}
 
 export default connect(
   mapStateToProps,
